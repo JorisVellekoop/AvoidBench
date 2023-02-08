@@ -270,6 +270,14 @@ bool QuadrotorEnv::getQuadState(Ref<Vector<>> obs) const {
   return false;
 }
 
+bool QuadrotorEnv::setQuadState(Ref<Vector<>> state) {
+  quad_state_.x << state;
+  cmd_.t += sim_dt_;
+  quad_state_.t += sim_dt_;
+  quad_ptr_->setState(quad_state_);
+  return true;
+}
+
 bool QuadrotorEnv::getDepthImage(Ref<DepthImgVector<>> depth_img) {
   if (!rgb_camera_ || !rgb_camera_->getEnabledLayers()[0]) {
     logger_.error(

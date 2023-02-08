@@ -86,6 +86,27 @@ bool QuadrotorVecEnv<EnvBaseName>::reset(Ref<MatrixRowMajor<>> obs,
 }
 
 template<typename EnvBaseName>
+bool QuadrotorVecEnv<EnvBaseName>::perAgentReset(Ref<MatrixRowMajor<>> obs, 
+                                              Ref<BoolVector<>> done,
+                                              bool random) {
+  if (obs.rows() != this->num_envs_ || obs.cols() != this->obs_dim_ ||
+      done.rows() != this->num_envs_ || done.cols() != 1) {
+    this->logger_.error(
+      "Input matrix dimensions do not match with that of the environment.");
+    return false;
+  }
+  random_reset_ = random;
+
+  for (int i = 0; i < this->num_envs_; i++) {
+    if (done[i]) {
+      this->envs_[i]->reset(obs.row(i), random_reset_);
+      }
+  }
+
+  return true;
+}
+
+template<typename EnvBaseName>
 bool QuadrotorVecEnv<EnvBaseName>::step(Ref<MatrixRowMajor<>> act,
                                         Ref<MatrixRowMajor<>> obs,
                                         Ref<MatrixRowMajor<>> reward,
@@ -163,6 +184,23 @@ bool QuadrotorVecEnv<EnvBaseName>::getQuadState(
   return valid;
 }
 
+template<typename EnvBaseName>
+bool QuadrotorVecEnv<EnvBaseName>::setQuadState(Ref<MatrixRowMajor<>> quadstate) {
+  bool valid = true;
+  for (int i = 0; i < this->num_envs_; i++) {
+    valid &= this->envs_[i]->setQuadState(quadstate.row(i));
+  }
+  return valid;
+}
+
+template<typename EnvBaseName>
+bool QuadrotorVecEnv<EnvBaseName>::getQuadCollision(Ref<BoolVector<>> quadcollision) {
+  // bool valid = true;
+  for (int i = 0; i < this->num_envs_; i++) {
+    quadcollision[i] = this->envs_[i]->getQuadCollision();
+  }
+  return true;
+}
 
 template<typename EnvBaseName>
 QuadrotorVecEnv<EnvBaseName>::~QuadrotorVecEnv() {}

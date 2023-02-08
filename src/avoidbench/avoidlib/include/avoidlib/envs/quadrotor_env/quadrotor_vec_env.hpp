@@ -22,6 +22,7 @@ class QuadrotorVecEnv : public VecEnvBase<EnvBaseName> {
   bool reset(Ref<MatrixRowMajor<>> obs) override;
   bool reset(Ref<MatrixRowMajor<>> obs, bool random);
   bool reset(Ref<MatrixRowMajor<>> obs, Ref<MatrixRowMajor<>> state);
+  bool perAgentReset(Ref<MatrixRowMajor<>> obs, Ref<BoolVector<>> done, bool random);
   bool step(Ref<MatrixRowMajor<>> act, Ref<MatrixRowMajor<>> obs,
             Ref<MatrixRowMajor<>> reward, Ref<BoolVector<>> done,
             Ref<MatrixRowMajor<>> extra_info) override;
@@ -29,6 +30,8 @@ class QuadrotorVecEnv : public VecEnvBase<EnvBaseName> {
 
   bool getQuadAct(Ref<MatrixRowMajor<>> quadact);
   bool getQuadState(Ref<MatrixRowMajor<>> quadstate);
+  bool setQuadState(Ref<MatrixRowMajor<>> quadstate);
+  bool getQuadCollision(Ref<BoolVector<>> quadcollision);
   inline std::vector<std::string> getRewardNames(void) {
     return this->envs_[0]->getRewardNames();
   };

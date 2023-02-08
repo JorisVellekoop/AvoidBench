@@ -57,6 +57,7 @@ class QuadrotorEnv final : public EnvBase {
 
   // - public set functions
   bool loadParam(const YAML::Node &cfg);
+  bool setQuadState(Ref<Vector<>> state);
 
   // - public get functions
   bool getObs(Ref<Vector<>> obs) override;
@@ -66,6 +67,7 @@ class QuadrotorEnv final : public EnvBase {
   // get quadrotor states
   bool getQuadAct(Ref<Vector<>> act) const;
   bool getQuadState(Ref<Vector<>> state) const;
+  bool getQuadCollision();
 
   // - auxiliar functions
   bool isTerminalState(double &reward) override;

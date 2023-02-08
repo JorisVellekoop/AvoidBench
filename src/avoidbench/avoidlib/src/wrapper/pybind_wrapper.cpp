@@ -30,6 +30,7 @@ PYBIND11_MODULE(flightgym, m) {
          static_cast<bool (QuadrotorVecEnv<QuadrotorEnv>::*)(
            Ref<MatrixRowMajor<>>, bool)>(&QuadrotorVecEnv<QuadrotorEnv>::reset),
          "reset with random option")
+    .def("perAgentReset", &QuadrotorVecEnv<QuadrotorEnv>::perAgentReset)
     .def("step", &QuadrotorVecEnv<QuadrotorEnv>::step)
     .def("setSeed", &QuadrotorVecEnv<QuadrotorEnv>::setSeed)
     .def("close", &QuadrotorVecEnv<QuadrotorEnv>::close)
@@ -41,6 +42,8 @@ PYBIND11_MODULE(flightgym, m) {
     .def("getObs", &QuadrotorVecEnv<QuadrotorEnv>::getObs)
     .def("getQuadAct", &QuadrotorVecEnv<QuadrotorEnv>::getQuadAct)
     .def("getQuadState", &QuadrotorVecEnv<QuadrotorEnv>::getQuadState)
+    .def("setQuadState", &QuadrotorVecEnv<QuadrotorEnv>::setQuadState)
+    .def("getQuadCollision", &QuadrotorVecEnv<QuadrotorEnv>::getQuadCollision)
     .def("getImage", &QuadrotorVecEnv<QuadrotorEnv>::getImage)
     .def("getDepthImage", &QuadrotorVecEnv<QuadrotorEnv>::getDepthImage)
     .def("getNumOfEnvs", &QuadrotorVecEnv<QuadrotorEnv>::getNumOfEnvs)
