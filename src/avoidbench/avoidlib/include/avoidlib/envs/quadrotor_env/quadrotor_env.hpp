@@ -114,7 +114,7 @@ class QuadrotorEnv final : public EnvBase {
 
   // auxiliary variables
   int rotor_ctrl_{true};
-  bool use_camera_{false};
+  bool use_camera_{true};
   YAML::Node cfg_;
   std::vector<std::string> reward_names_;
   Matrix<3, 2> world_box_;
