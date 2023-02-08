@@ -41,20 +41,20 @@ else()
 endif()
 message(STATUS "Eigen3 include dir: ${EIGEN3_INCLUDE_DIR}")
 
-find_package(CUDA REQUIRED)
-set(CUDA_NVCC_FLAGS
-        ${CUDA_NVCC_FLAGS};
-        -O3
-        -gencode=arch=compute_52,code=sm_52
-        -gencode=arch=compute_61,code=sm_61
-        -gencode=arch=compute_62,code=sm_62
-        -gencode=arch=compute_75,code=sm_75
-        -gencode=arch=compute_86,code=sm_86
-        )
-
-message("CUDA Libs: ${CUDA_LIBRARIES}")
-message("CUDA Headers: ${CUDA_INCLUDE_DIRS}")
-message("CUDA curand library: ${CUDA_curand_LIBRARY}")
+#find_package(CUDA REQUIRED)
+#set(CUDA_NVCC_FLAGS
+#        ${CUDA_NVCC_FLAGS};
+#        -O3
+#        -gencode=arch=compute_52,code=sm_52
+#        -gencode=arch=compute_61,code=sm_61
+#        -gencode=arch=compute_62,code=sm_62
+#        -gencode=arch=compute_75,code=sm_75
+#        -gencode=arch=compute_86,code=sm_86
+#        )
+#
+#message("CUDA Libs: ${CUDA_LIBRARIES}")
+#message("CUDA Headers: ${CUDA_INCLUDE_DIRS}")
+#message("CUDA curand library: ${CUDA_curand_LIBRARY}")
 
 # Including dependencies 
 find_package(OpenCV REQUIRED)
