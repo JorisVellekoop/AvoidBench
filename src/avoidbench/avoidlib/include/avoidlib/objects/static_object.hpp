@@ -15,11 +15,14 @@ class StaticObject {
     quat_ = quaternion;
   };
   virtual void setSize(const Vector<3>& size) { size_ = size; };
+  virtual void setScale(const Vector<3>& scale) { scale_ = scale; };
 
   // public get functions
   virtual Vector<3> getPosition(void) { return position_; };
   virtual Quaternion getQuaternion(void) { return quat_; };
   virtual Vector<3> getSize(void) { return size_; };
+  virtual Vector<3> getScale(void) { return scale_; };
+  
   const std::string& getID(void) { return id_; };
   const std::string& getPrefabID(void) { return prefab_id_; };
 
@@ -31,6 +34,7 @@ class StaticObject {
   Vector<3> position_{0.0, 0.0, 0.0};
   Quaternion quat_{1.0, 0.0, 0.0, 0.0};
   Vector<3> size_{1.0, 1.0, 1.0};
+  Vector<3> scale_{1.0, 1.0, 1.0};
 };
 
 }  // namespace avoidlib

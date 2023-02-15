@@ -114,10 +114,10 @@ bool UnityBridge::getRender(const FrameID frame_id, const bool SpawnNewObj) {
   }
 
   for (size_t idx = 0; idx < pub_msg_.objects.size(); idx++) {
-    std::shared_ptr<Cylinder> gate = static_objects_[idx];
+    std::shared_ptr<StaticObject> gate = static_objects_[idx];
     pub_msg_.objects[idx].position = positionRos2Unity(gate->getPosition());
     pub_msg_.objects[idx].rotation = quaternionRos2Unity(gate->getQuaternion());
-    pub_msg_.objects[idx].opacity  = gate->getOpacity();
+    // pub_msg_.objects[idx].opacity  = gate->getOpacity();
   }
 
   pub_msg_.spawn_new_obj = SpawnNewObj;
@@ -186,14 +186,13 @@ bool UnityBridge::addQuadrotor(std::shared_ptr<Quadrotor> quad) {
   return true;
 }
 
-bool UnityBridge::addStaticObject(std::shared_ptr<Cylinder> static_object) {
+bool UnityBridge::addStaticObject(std::shared_ptr<StaticObject> static_object) {
   Object_t object_t;
   object_t.ID = static_object->getID();
-  object_t.prefab_ID = static_object->getPrefabID();
-  object_t.position = positionRos2Unity(static_object->getPosition());
+  object_t.prefab_ID = static_object->getPrefabID();  object_t.position = positionRos2Unity(static_object->getPosition());
   object_t.rotation = quaternionRos2Unity(static_object->getQuaternion());
   object_t.size = scalarRos2Unity(static_object->getSize());
-  object_t.opacity = static_object->getOpacity();
+  // object_t.opacity = static_object->getOpacity();
 
   static_objects_.push_back(static_object);
   settings_.objects.push_back(object_t);

@@ -47,6 +47,7 @@ class VecEnvBase {
   // - auxiliary functions
   void isTerminalState(Ref<BoolVector<>> terminal_state);
   void curriculumUpdate();
+  bool addStaticObjects(std::vector<std::string> prefab_ids, std::vector<std::vector<float>> objects_state);
 
   // flightmare (visualization)
   bool setUnity(const bool render);

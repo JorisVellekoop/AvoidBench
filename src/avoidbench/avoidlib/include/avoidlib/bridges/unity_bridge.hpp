@@ -55,7 +55,7 @@ class UnityBridge {
   // add object
   bool addQuadrotor(std::shared_ptr<Quadrotor> quad);
   bool addCamera(std::shared_ptr<UnityCamera> unity_camera);
-  bool addStaticObject(std::shared_ptr<Cylinder> static_object);
+  bool addStaticObject(std::shared_ptr<StaticObject> static_object);
 
   bool placeObjects(Object_Message_t obj_msg_t);
   bool placeTrees(Tree_Message_t obj_msg_t);
@@ -84,7 +84,7 @@ class UnityBridge {
 
   std::vector<std::shared_ptr<Quadrotor>> unity_quadrotors_;
   std::vector<std::shared_ptr<RGBCamera>> rgb_cameras_;
-  std::vector<std::shared_ptr<Cylinder>> static_objects_;
+  std::vector<std::shared_ptr<StaticObject>> static_objects_;
 
   // ZMQ variables and functions
   std::string client_address_;

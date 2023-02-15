@@ -165,6 +165,7 @@ template<typename EnvBaseName>
 bool VecEnvBase<EnvBaseName>::getDepthImage(
   Ref<DepthImgMatrixRowMajor<>> depth_img) {
   bool valid_img = true;
+#pragma omp parallel for schedule(dynamic)`
   for (int i = 0; i < num_envs_; i++) {
     valid_img &= envs_[i]->getDepthImage(depth_img.row(i));
   }
@@ -267,6 +268,45 @@ void VecEnvBase<EnvBaseName>::disconnectUnity(void) {
 template<typename EnvBaseName>
 void VecEnvBase<EnvBaseName>::curriculumUpdate(void) {
   for (int i = 0; i < num_envs_; i++) envs_[i]->curriculumUpdate();
+}
+
+template<typename EnvBaseName>
+bool VecEnvBase<EnvBaseName>::addStaticObjects(std::vector<std::string> prefab_ids, std::vector<std::vector<float>> objects_state) {
+  if (unity_bridge_ptr_ != nullptr) {
+    for (int i = 0; i < (int)objects_state.size(); i++) {
+      std::string object_id = "StaticObject" + std::to_string(i + 1);
+      
+      std::shared_ptr<StaticObject> obj =
+      std::make_shared<StaticObject>(object_id, prefab_ids[i]);
+
+      //
+      Vector<3> pos;
+      pos << objects_state[i][0], objects_state[i][1], objects_state[i][2];
+
+      Quaternion quat;
+      quat.w() = objects_state[i][3];
+      quat.x() = objects_state[i][4];
+      quat.y() = objects_state[i][5];
+      quat.z() = objects_state[i][6];
+
+      Vector<3> scale;
+      scale << objects_state[i][7], objects_state[i][8], objects_state[i][9];
+
+      //
+      obj->setPosition(pos);
+      obj->setQuaternion(quat);
+      // actual size in meters
+      obj->setSize(Vector<3>(1.0, 1.0, 1.0));
+      // scale of the original size
+      obj->setScale(scale);
+      // static_objects_.push_back(obj);
+
+      unity_bridge_ptr_->addStaticObject(obj);
+    }
+  } else {
+    logger_.warn("Cannot add objects, flightmare Unity Bridge is not initialized.");
+  }
+  return true;
 }
 
 // IMPORTANT. Otherwise:
