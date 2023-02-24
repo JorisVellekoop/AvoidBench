@@ -91,8 +91,8 @@ bool QuadrotorEnv::reset(Ref<Vector<>> obs) {
   quad_state_.setZero();
   pi_act_.setZero();
 
-  quad_state_.x(QS::POSX) = uniform_dist_(random_gen_);
-  quad_state_.x(QS::POSY) = uniform_dist_(random_gen_);
+  quad_state_.x(QS::POSX) = 0.0;
+  quad_state_.x(QS::POSY) = 5.0;
   quad_state_.x(QS::POSZ) = 10.0;
 
   // randomly reset the quadrotor state
@@ -213,7 +213,7 @@ bool QuadrotorEnv::step(const Ref<Vector<>> act, Ref<Vector<>> obs,
     cmd_.omega = pi_act_.segment<3>(1);
   }
   // simulate quadrotor
-  // quad_ptr_->run(cmd_, sim_dt_);
+  quad_ptr_->run(cmd_, sim_dt_);
 
   // update observations
   getObs(obs);
@@ -265,9 +265,9 @@ bool QuadrotorEnv::getQuadAct(Ref<Vector<>> act) const {
 
 bool QuadrotorEnv::getQuadState(Ref<Vector<>> obs) const {
   if (quad_state_.t >= 0.0 && (obs.rows() == quadenv::kNQuadState)) {
-    obs << quad_state_.t, quad_state_.p, quad_state_.qx, quad_state_.v,
+    obs << quad_state_.p, quad_state_.qx, quad_state_.v,
       quad_state_.w, quad_state_.a, quad_ptr_->getMotorOmega(),
-      quad_ptr_->getMotorThrusts();
+      quad_ptr_->getMotorThrusts(), quad_state_.t;
     return true;
   }
   logger_.error("Get Quadrotor state failed.");

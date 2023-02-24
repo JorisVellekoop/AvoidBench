@@ -23,12 +23,13 @@ namespace avoidlib {
 enum UnityScene {
   INDUSTRIAL = 0,
   WAREHOUSE = 1,
-  GARAGE = 2,
-  TUNELS = 4,
-  NATUREFOREST = 3,
-  WAREHOUSE_KIT = 5,
+  // GARAGE = 2,
+  // TUNELS = 4,
+  NATUREFOREST = 2,
+  // WAREHOUSE_KIT = 5,
   // total number of environment
-  SceneNum = 6
+  EMPTY = 3,
+  SceneNum = 4
 };
 
 // Unity Camera, should not be used alone.

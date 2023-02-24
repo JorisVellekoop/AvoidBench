@@ -289,14 +289,18 @@ bool VecEnvBase<EnvBaseName>::addStaticObjects(std::vector<std::string> prefab_i
       quat.y() = objects_state[i][5];
       quat.z() = objects_state[i][6];
 
-      Vector<3> scale;
-      scale << objects_state[i][7], objects_state[i][8], objects_state[i][9];
+      Vector<3> scale(1.0, 1.0, 1.0);
+      // scale << objects_state[i][7], objects_state[i][8], objects_state[i][9];
+
+      Vector<3> size;
+      size << objects_state[i][7], objects_state[i][8], objects_state[i][9];
+      
 
       //
       obj->setPosition(pos);
       obj->setQuaternion(quat);
       // actual size in meters
-      obj->setSize(Vector<3>(1.0, 1.0, 1.0));
+      obj->setSize(size);
       // scale of the original size
       obj->setScale(scale);
       // static_objects_.push_back(obj);
