@@ -219,22 +219,52 @@ bool UnityBridge::ifSceneChanged()
 }
 
 bool UnityBridge::handleOutput(const FrameID sent_frame_id) {
-  // create new message object
   zmqpp::message msg;
-  sub_.receive(msg);
-  if(msg.get(0) == "CollisionState")
-  {
-    // std::cout<<msg.get(1)<<std::endl;
-    std::string json_colli_msg = msg.get(1);
-    colli_state_msg = json::parse(json_colli_msg);
-    return false;
+  SubMessage_t sub_msg;
+  for (int i = 0; i < max_output_request_; i++) {
+    //   // create new message object zmqpp::message msg;
+    //   std::cout << "receiving messages" << std::endl;
+    sub_.receive(msg);
+
+    // unpack message metadata
+    std::string json_sub_msg = msg.get(0);
+    // parse metadata
+    sub_msg = json::parse(json_sub_msg);
+
+    //
+    // std::cout << i << 0 << " - "
+    //           << ", sent frame id : " << sent_frame_id
+    //           << ", received frame id : " << sub_msg.frame_id << std::endl;
+    if (sub_msg.frame_id == sent_frame_id) break;
+
+    if (i >= (max_output_request_ - 1)) {
+      logger_.error(
+        "Cannot find the updated frame id aftet %d request. Using the last "
+        "request data.",
+        max_output_request_);
+    }
+  
   }
+
+  // size_t image_i = 1;
+
+
+  // create new message object
+  // zmqpp::message msg;
+  // sub_.receive(msg);
+  // if(msg.get(0) == "CollisionState")
+  // {
+  //   // std::cout<<msg.get(1)<<std::endl;
+  //   std::string json_colli_msg = msg.get(1);
+  //   colli_state_msg = json::parse(json_colli_msg);
+  //   return false;
+  // }
   // unpack message metadata
-  std::string json_sub_msg = msg.get(0);
+  // std::string json_sub_msg = msg.get(0);
   std::string json_pc_msg = msg.get(1);
   // std::cout<<json_pc_msg<<std::endl;
   // parse metadata
-  SubMessage_t sub_msg = json::parse(json_sub_msg);
+  // SubMessage_t sub_msg = json::parse(json_sub_msg);
   pc_state_msg = json::parse(json_pc_msg);
   scene_changed = sub_msg.scene_change_feedback;
   // std::cout<<scene_changed<<std::endl;
@@ -266,7 +296,7 @@ bool UnityBridge::handleOutput(const FrameID sent_frame_id) {
           memcpy(new_image.data, image_data, image_len);
           // Flip image since OpenCV origin is upper left, but Unity's is lower
           // left.
-          new_image = new_image * (1.f);
+          new_image = new_image * (100.f);
           cv::flip(new_image, new_image, 0);
 
 

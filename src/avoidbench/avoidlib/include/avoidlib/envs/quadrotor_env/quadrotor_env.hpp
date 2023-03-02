@@ -30,7 +30,7 @@ enum Ctl : int {
 
   // observations
   kObs = 0,
-  kNObs = 15,
+  kNObs = 12,
   kNState = 13,
 
   // control actions

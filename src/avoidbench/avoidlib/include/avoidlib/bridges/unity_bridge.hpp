@@ -104,6 +104,7 @@ class UnityBridge {
   int64_t u_packet_latency_;
 
   // axuiliary variables
+  const int max_output_request_{100};
   const float unity_connection_time_out_{60.0};
   bool unity_ready_{false};
 };

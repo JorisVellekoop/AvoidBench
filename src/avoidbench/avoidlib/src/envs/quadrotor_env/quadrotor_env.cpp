@@ -188,8 +188,8 @@ bool QuadrotorEnv::getObs(Ref<Vector<>> obs) {
   Vector<9> ori = Map<Vector<>>(quad_state_.R().data(), quad_state_.R().size());
 
   // observation dim : 3 + 9 + 3 = 15
-  obs.segment<quadenv::kNObs>(quadenv::kObs) << quad_state_.p, ori,
-    quad_state_.v;
+  obs.segment<quadenv::kNObs>(quadenv::kObs) << quad_state_.p, ori;
+    // quad_state_.v;
   // use the following observations if use single rotor thrusts as input
   // observation dim : 3 + 9 + 3 + 3= 18
   // obs.segment<quadenv::kNObs>(quadenv::kObs) << quad_state_.p, ori,
@@ -342,10 +342,10 @@ bool QuadrotorEnv::loadParam(const YAML::Node &cfg) {
 
   if (cfg["rewards"]) {
     // load reinforcement learning related parameters
-    pos_coeff_ = cfg["rewards"]["pos_coeff"].as<Scalar>();
-    ori_coeff_ = cfg["rewards"]["ori_coeff"].as<Scalar>();
-    lin_vel_coeff_ = cfg["rewards"]["lin_vel_coeff"].as<Scalar>();
-    ang_vel_coeff_ = cfg["rewards"]["ang_vel_coeff"].as<Scalar>();
+    // pos_coeff_ = cfg["rewards"]["pos_coeff"].as<Scalar>();
+    // ori_coeff_ = cfg["rewards"]["ori_coeff"].as<Scalar>();
+    // lin_vel_coeff_ = cfg["rewards"]["lin_vel_coeff"].as<Scalar>();
+    // ang_vel_coeff_ = cfg["rewards"]["ang_vel_coeff"].as<Scalar>();
     // load reward settings
     reward_names_ = cfg["rewards"]["names"].as<std::vector<std::string>>();
 
