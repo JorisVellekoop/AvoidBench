@@ -165,7 +165,7 @@ template<typename EnvBaseName>
 bool VecEnvBase<EnvBaseName>::getDepthImage(
   Ref<DepthImgMatrixRowMajor<>> depth_img) {
   bool valid_img = true;
-#pragma omp parallel for schedule(dynamic)`
+#pragma omp parallel for schedule(dynamic)
   for (int i = 0; i < num_envs_; i++) {
     valid_img &= envs_[i]->getDepthImage(depth_img.row(i));
   }
