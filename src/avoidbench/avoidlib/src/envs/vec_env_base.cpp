@@ -240,11 +240,15 @@ template<typename EnvBaseName>
 FrameID VecEnvBase<EnvBaseName>::updateUnity(const FrameID frame_id) {
   if (unity_render_ && unity_ready_) {
     bool sent = unity_bridge_ptr_->getRender(frame_id);
-    if (!sent) {
-      logger_.error("Message has not been sent successfully!!!!");
+    // if (!sent) {
+    //   logger_.error("Message has not been sent successfully!!!!");
+    // }
+    while (!unity_bridge_ptr_->handleOutput(frame_id)){
+      unity_bridge_ptr_->getRender(frame_id);
     }
-    return unity_bridge_ptr_->handleOutput(frame_id);
-  } else {
+    return true;
+  } 
+  else {
     return 0;
   }
 }
